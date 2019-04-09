@@ -3,211 +3,67 @@
 <head>
 <meta charset="utf-8">
 <script src="http://d3js.org/d3.v4.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="js/d3-scale-radial.js"></script>
+<link rel="stylesheet" href="style.css">
 
-<style type="text/css">
-
-/* On mouse hover, lighten state color */
-path:hover {
-	fill-opacity: .7;
-}
-
-/* Style for Custom Tooltip */
-div.tooltip {   
- 	position: absolute;           
-	text-align: center;           
-	width: 60px;                  
-	height: 28px;                 
-	padding: 2px;             
-	font: 12px sans-serif;        
-	background: white;   
-	border: 0px;      
-	border-radius: 8px;           
-	pointer-events: none;         
-}
-        
-/* Legend Font Style */
-body {
-	font: 11px sans-serif;
-	background-color: #141332;
-}
-        
-/* Legend Position Style */
-.legend {
-	position:absolute;
-	left:800px;
-	top:350px;
-}
-
-</style>
 </head>
 <body>
-<script type="text/javascript">
+	<div class = "container">
+		<h1>The UFO Phenomenon: Should I Believe?</h1>
+		<h3>What over 80,000 reports of UFO sightings data over the last century told us.</h2>
+		<img src="img/UFO.svg" id = "UFO_ico">
+		<h5>By <b>Zachary Zeng</b>, <b>Jiahui Zhou</b>, <b>Jay Chen</b>, <b>Mengyao Liu</b></h3>
 
+		<div style="width : 60%; margin: 0 auto;">
+			<p>
+				There is a large amount of data that people have witnessed UFOs, through ancient times and modern days. But still, do you believe in UFO and aliens? In 2019, we had the opportunity to dig deeper into over 80,000 sighting reports data. Based on our understanding of the UFO sighting phenomena, there are factors: external events, population, daily/seasonal activity, and time of day.
+			</p>
+		</div>	
 		
-//Width and height of map
-var width = 960;
-var height = 500;
 
-// D3 Projection
-var projection = d3.geoAlbersUsa()
-				   .translate([width/2, height/2])    // translate to center of screen
-				   .scale([1000]);          // scale things down so see entire US
-        
-// Define path generator
-var path = d3.geoPath()               // path generator that will convert GeoJSON to SVG paths
-		  	 .projection(projection);  // tell path generator to use albersUsa projection
+		<div id = "linechart">
+			<h2>History of UFO Sightings</h2>
+			<div id="line"></div>
+			<div id="num">
+				UFO Sightings: 
+			</div>
+			<div id = "events">
+				UFOs garnered considerable interest during the Cold War, an era associated with a heightened concern for national security
+			</div>
+		</div>
 
+		<h2>Geography - Population and Air force</h4>
+		<div id = "map"></div>
+		<div id="map_text">
+			<div style="width : 60%; margin: 0 auto;">
+				<p style="margin-top: 50px;">
+					The second chat shows a map which represents the geological relationship between the number of UFO sighting in the states of the United States with the population and air force locations. 
+					Whenever we pulled out a list of the top states for UFO sightings, our first instinct was that the reason California is No. 1 because of its population. However, after exploring the other top 10 states, we found vast contrast: 
+
+					For example, in 2010, Washington has about half the population (6.7 million) of Pennsylvania (12.7 million), but Washington (247) has nearly twice of the UFO sighting numbers of Pennsylvania’s (145). In the meantime, New York (19.4 million), who has nearly population of Washington and Pennsylvania combined, has UFO sighting volumes (160) similar to Pennsylvania. So population isn’t the sole driver.
+
+					The opinion that a state’s population is the sole driver for the volume of UFO sighting reports doesn’t hold up.
+
+					We then looked at the relationship between UFO sightings and air force locations.
+
+				</p>
+			</div>
+		</div>
+
+		<h2>Time of Day - Shape</h2>
+		<div id="shape"></div>
+		<div id="shape_text">
+			<h4 id = "shape_title"></h4>
+			<p id= "shape_des"></p>
+			In the United States, 66.82% of UFO sighting reports generally occurs in the hours between 4 p.m. and midnight, with a peak (38.8%) between 8 to 10 p.m.; in essence, bedtime or that last smoke outside or walking the dog. The hours between midnight and 4 p.m. represent 16.59 percent of the typical day’s UFO sightings.
+		</div>
 		
-// Define linear scale for output
-var color = d3.scaleLinear()
-			  .range(["rgb(213,222,217)","rgb(69,173,168)","rgb(84,36,55)","rgb(217,91,67)"]);
+	</div>
 
-var legendText = ["Air Force Base", "States Lived", "States Visited", "Nada"];
-
-//Create SVG element and append map to the SVG
-var svg = d3.select("body")
-			.append("svg")
-			.attr("width", width)
-			.attr("height", height);
-        
-// Append Div for tooltip to SVG
-var div = d3.select("body")
-		    .append("div")   
-    		.attr("class", "tooltip")               
-    		.style("opacity", 0);
-
-// Load in my states data!
-d3.csv("/data/Population.csv", function(data) {
-	// Load GeoJSON data and merge with states data
-	d3.json("/data/us-states.json", function(json) {
-
-		// Loop through each state data value in the .csv file
-		for (var i = 0; i < data.length; i++) {
-
-			// Grab State Name
-			var dataState = data[i].state;
-
-			// Grab data value 
-			var dataValue = data[i].respop72010;
-
-			// Find the corresponding state inside the GeoJSON
-			for (var j = 0; j < json.features.length; j++)  {
-				var jsonState = json.features[j].properties.name;
-
-				if (dataState == jsonState) {
-
-				// Copy the data value into the JSON
-				json.features[j].properties.visited = dataValue; 
-
-				// Stop looking through the JSON
-				break;
-				}
-			}
-		}
-				
-		// Bind the data to the SVG and create one path per GeoJSON feature
-		svg.selectAll("path")
-			.data(json.features)
-			.enter()
-			.append("path")
-			.attr("d", path)
-			.style("stroke", "#fff")
-			.style("stroke-width", "0.2")
-			.style("fill", function(d) {
-				// Get data value
-				var value = d.properties.visited;
-				var colorScale = d3.scaleLinear().domain([0,37320903]).range(["#141332", "#595499"])
-                return colorScale(value)
-			});
-
-		
-		d3.csv("/data/LaLo.csv", function(data) {
-			svg.selectAll("circle")
-				.data(data)
-				.enter()
-				.append("circle")
-				.attr("cx", function(d,i) {
-					lon = parseFloat(d.longitude).toFixed(5).toString()
-					lat = parseFloat(d.latitude).toFixed(5).toString()
-					return projection([lon, lat])[0];
-				})
-				.attr("cy", function(d) {
-					lon = parseFloat(d.longitude).toFixed(5).toString()
-					lat = parseFloat(d.latitude).toFixed(5).toString()
-					return projection([lon, lat])[1];
-				})
-				.attr("r", 1)
-				.style("fill", "rgb(145,208,242)")	
-				.style("opacity", 0.85)	
-
-				// Modification of custom tooltip code provided by Malcolm Maclean, "D3 Tips and Tricks" 
-				// http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html
-
-		});
-
-		d3.csv("/data/airforce.csv", function(data) {
-			svg.selectAll("circle")
-				.data(data)
-				.enter()
-				.append("circle")
-				.attr("cx", function(d,i) {
-					lon = parseFloat(d.lon).toFixed(5).toString()
-					lat = parseFloat(d.lat).toFixed(5).toString()
-					return projection([lon, lat])[0];
-				})
-				.attr("cy", function(d) {
-					lon = parseFloat(d.lon).toFixed(5).toString()
-					lat = parseFloat(d.lat).toFixed(5).toString()
-					return projection([lon, lat])[1];
-				})
-				.attr("r", 5)
-				.style("fill", "rgb(255,255,255)")	
-				.style("opacity", 0.85)	
-
-				// Modification of custom tooltip code provided by Malcolm Maclean, "D3 Tips and Tricks" 
-				// http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html
-				.on("mouseover", function(d) {      
-			    	div.transition()        
-			      	   .duration(200)      
-			           .style("opacity", .9);      
-			           div.text(d.name)
-			           .style("left", (d3.event.pageX) + "px")     
-			           .style("top", (d3.event.pageY - 28) + "px");    
-				})   
-
-			    // fade out tooltip on mouse out               
-			    .on("mouseout", function(d) {       
-			        div.transition()        
-			           .duration(500)      
-			           .style("opacity", 0);   
-		    	});
-});  
-        
-// Modified Legend Code from Mike Bostock: http://bl.ocks.org/mbostock/3888852
-var legend = d3.select("body").append("svg")
-      			.attr("class", "legend")
-     			.attr("width", 140)
-    			.attr("height", 200)
-   				.selectAll("g")
-   				.data(color.domain().slice().reverse())
-   				.enter()
-   				.append("g")
-     			.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-
-  	// legend.append("rect")
-   // 		  .attr("width", 18)
-   // 		  .attr("height", 18)
-   // 		  .style("fill", color);
-
-  	// legend.append("text")
-  	// 	  .data(legendText)
-   //    	  .attr("x", 24)
-   //    	  .attr("y", 9)
-   //    	  .attr("dy", ".35em")
-   //    	  .text(function(d) { return d; });
-	});
-
-});
-</script>
+	
+	<script src="js/shape.js"></script>
+	<script src="js/map.js"></script>
+	<script src="js/line.js"></script>
 </body>
 </html>

@@ -1,0 +1,147 @@
+/* Legend Font Style */
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600');
+
+body {
+	font: 11px;
+	font-family: 'Open Sans', sans-serif;
+	color: white;
+	background: rgb(30,28,74);
+	background: radial-gradient(circle, rgba(30,28,74,1) 0%, rgba(16,15,40,1) 100%);
+	text-align: center;
+}
+
+
+
+
+.container {
+	width: 60%;
+	margin: 0 auto;
+	padding-top: 100px;
+}
+
+h1 {
+	font-weight: 400;
+	font-size:40pt;
+}
+
+h3 {
+	font-weight: 300;
+	font-size:13pt;
+	color:rgba(255,255,255,0.6);
+}
+
+
+#UFO_ico {
+	margin-top: 5%;
+	margin-bottom: 5%;
+	width: 10%;
+	height: auto;
+}
+
+p {
+	text-align: left;
+	color:rgba(255,255,255,0.5);
+}
+h5 {
+	font-weight: 500;
+	font-size: 12pt;
+}
+
+h5 b {
+	text-decoration: underline;
+}
+
+h2 {
+	font-weight: 400;
+	font-size: 20pt;
+	margin-top: 200px;
+}
+
+
+.line {
+    fill: none;
+    stroke: #494CA4;
+    stroke-width: 5;
+}
+
+/* Style the dots by assigning a fill and stroke */
+.dot {
+    fill: #9BCFF0;
+    box-shadow: 10px 10px grey;
+}
+
+.area {
+	fill: url(#temperature-gradient);
+}
+
+.key_year {
+	font-size:16pt;
+	color: rgba(255,255,255,0.5);
+}
+
+#events {
+	width: 400px;
+	position: absolute;
+	top:  1580px;
+	left: 550px;
+	text-align:left;
+	color: rgba(255,255,255,0.5);
+}
+
+#line {
+	width: 50%;
+}
+
+#num {
+	color: white;
+	font-size: 14pt;
+}
+
+#linechart {
+	width: 100%;
+	margin: 0 auto;
+	margin-top: 10%;
+
+}
+
+
+/* Style for Custom Tooltip */
+div.tooltip {   
+ 	position: absolute;           
+	text-align: center;           
+	width: 60px;                  
+	height: 28px;                 
+	padding: 2px;             
+	font: 12px sans-serif;        
+	background: white;   
+	border: 0px;      
+	border-radius: 8px;           
+	pointer-events: none;         
+}
+        
+
+        
+/* Legend Position Style */
+.legend {
+	position:absolute;
+	left:800px;
+	top:350px;
+}
+
+#shape {
+	margin-top: 40px;
+}
+
+#shape_text {
+	text-align:left;
+	width: 60%;
+	margin: 0 auto;
+	margin-top: -400px;
+	color:rgba(255,255,255,0.5);
+}
+
+
+::selection {
+	background: #808DD3;
+}
