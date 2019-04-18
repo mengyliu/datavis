@@ -31,7 +31,7 @@ function loadData_shape() {
 
 
 function visualize_shape() {
-  d3.csv("../data/DayTimeShapeTop10.csv", function(d) {
+  d3.csv("./data/DayTimeShapeTop10.csv", function(d) {
     data = d;
     data.forEach((d) => {
       d.hour = parseInt(d.hour);
