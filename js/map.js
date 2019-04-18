@@ -81,7 +81,7 @@ function visulization() {
         });
 
 
-      d3.csv("/data/LaLo.csv", function(data) {
+      d3.csv("./data/LaLo.csv", function(data) {
         svg.selectAll("circle")
           .data(data)
           .enter()
@@ -105,7 +105,7 @@ function visulization() {
 
       });
 
-      d3.csv("/data/airforce.csv", function(data) {
+      d3.csv("./data/airforce.csv", function(data) {
         svg.selectAll("circle")
           .data(data)
           .enter()

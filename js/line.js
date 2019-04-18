@@ -7,7 +7,7 @@ $(document).ready(function() {
 
 function loadData_line() {
   //code for Q1 goes here
-  d3.csv("../data/yearnum.csv", function(d) {
+  d3.csv("./data/yearnum.csv", function(d) {
     data = d;
     data.forEach((item) => {
       item.num = parseInt(item.num)
