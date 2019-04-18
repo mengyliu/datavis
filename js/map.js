@@ -37,9 +37,9 @@ function visulization() {
     .style("opacity", 0);
 
   // Load in my states data!
-  d3.csv("/data/Population.csv", function(data) {
+  d3.csv("./data/Population.csv", function(data) {
     // Load GeoJSON data and merge with states data
-    d3.json("/data/us-states.json", function(json) {
+    d3.json("./data/us-states.json", function(json) {
 
       // Loop through each state data value in the .csv file
       for (var i = 0; i < data.length; i++) {
