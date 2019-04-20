@@ -147,13 +147,12 @@ function visulization(id) {
             .style("fill", "rgb(255,255,255)")
             .style("opacity", 0.85)
 
-            // Modification of custom tooltip code provided by Malcolm Maclean, "D3 Tips and Tricks" 
-            // http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html
-            // .on("mouseover", function(d) {
+            // .on("mouseover", function(data) {
+            //   console.log(data)
             //   div.transition()
             //     .duration(200)
             //     .style("opacity", .9);
-            //   div.text(d.name)
+            //   div.text(data.name)
             //     .style("left", (d3.event.pageX) + "px")
             //     .style("top", (d3.event.pageY - 28) + "px");
             // })

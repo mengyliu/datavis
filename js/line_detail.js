@@ -1,26 +1,26 @@
 var data = []; // the variable that holds the data from csv file
 
 $(document).ready(function() {
-  loadData_line();
+  loadData_line_detail();
 });
 
 
-function loadData_line() {
+function loadData_line_detail() {
   //code for Q1 goes here
-  d3.csv("./data/yearnum.csv", function(d) {
+  d3.csv("./data/yearnum_detail.csv", function(d) {
     data = d;
     data.forEach((item) => {
       item.num = parseInt(item.num)
       item.year = parseInt(item.year)
       console.log(item.num)
     });
-    visualize_line();
+    visualize_line_detail();
   });
 }
 
 
 
-function visualize_line() {
+function visualize_line_detail() {
   // 2. Use the margin convention practice 
   var margin = {
       top: 50,
@@ -28,9 +28,9 @@ function visualize_line() {
       bottom: 50,
       left: 50,
     },
-    width = document.getElementById("linechart").offsetWidth; // Use the window's width 
+    width = document.getElementById("linechart").offsetWidth/2; // Use the window's width 
   
-    height = 1000; // Use the window's height
+    height = 500; // Use the window's height
 
   // The number of datapoints
 
@@ -62,9 +62,8 @@ function visualize_line() {
     }) // set the y values for the line generator // apply smoothing to the line
 
 
-
   // 1. Add the SVG to the page and employ #2
-  var svg = d3.select("#linechart #line").append("svg")
+  var svg = d3.select("#linechart #line_detail").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
@@ -97,7 +96,7 @@ function visualize_line() {
     .call(d3.axisLeft(yScale).tickValues(yScale.domain().filter(function(d,i){ return !(i%5)}))); // Create an axis component with d3.axisLeft
 
   var keyevents = data.filter(function(d) {
-    var filter = (d.year == 1990);
+    var filter = (d.year == 1946) || (d.year == 1996) || (d.year == 1974) || (d.year == 1984) || (d.year == 1984);
     return filter;
   })
 
@@ -128,10 +127,6 @@ function visualize_line() {
     .attr("r", 5)
     .on("mouseover", handleMouseOver)
     .on("mouseout", handleMouseOut)
-
-  d3.select("#num").append("text")
-    .text(0)
-
 
 
   // Create Event Handlers for mouse
