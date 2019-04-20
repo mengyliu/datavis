@@ -148,8 +148,8 @@ div.tooltip {
         
 /* Legend Position Style */
 .legend {
-	left:800px;
-	top:350px;
+	margin-left:800px;
+	margin-top:20px;
 }
 
 #shape {

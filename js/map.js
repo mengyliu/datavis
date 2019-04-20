@@ -36,9 +36,9 @@ function visulization(id) {
 
   // Define linear scale for output
   var color = d3.scaleLinear()
-    .range(["rgb(213,222,217)", "rgb(69,173,168)"]);
+    .range(["white", "rgb(145,208,242)"]);
 
-  var legendText = ["Air Force Base", "States Lived", "States Visited", "Nada"];
+  var legendText = ["Air Force Base", "UFO Sightings"];
 
   //Create SVG element and append map to the SVG
   var svg = d3.select("#map")
@@ -170,7 +170,7 @@ function visulization(id) {
       var legend = d3.select("#map").append("svg")
         .attr("class", "legend")
         .attr("width", 140)
-        .attr("height", 200)
+        .attr("height", 50)
         .selectAll("g")
         .data(color.domain().slice().reverse())
         .enter()
@@ -180,16 +180,18 @@ function visulization(id) {
         });
 
       legend.append("circle")
-            .attr("cx", 10)
-            .attr("cy", 10)
+            .attr("cx", 7)
+            .attr("cy", 7)
+            .attr("r", 7)
             .style("fill", color);
 
       legend.append("text")
-         .data(legendText)
-            .attr("x", 24)
-            .attr("y", 9)
-            .attr("dy", ".35em")
-            .text(function(d) { return d; });
+        .data(legendText)
+        .attr("x", 24)
+        .attr("y", 9)
+        .attr("dy", ".35em")
+        .style("fill", 'white')
+        .text(function(d) { return d; });
     });
 
   });
