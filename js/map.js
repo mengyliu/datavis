@@ -1,8 +1,24 @@
 $(document).ready(function() {
-  visulization();
+  visulization("all");
 });
 
-function visulization() {
+function selectGraph(id) {
+  var buttons = document.querySelectorAll(".button");
+  buttons.forEach((b) => {
+    b.classList.remove("selected")
+  })
+  var btn = document.getElementById(id)
+  btn.classList.add('selected')
+  updateGraph(id)
+}
+
+
+function updateGraph(id) {
+  $("#map").empty();
+  visulization(id);
+}
+function visulization(id) {
+  console.log(id)
 
   //Width and height of map
   var width = 960;
@@ -20,7 +36,7 @@ function visulization() {
 
   // Define linear scale for output
   var color = d3.scaleLinear()
-    .range(["rgb(213,222,217)", "rgb(69,173,168)", "rgb(84,36,55)", "rgb(217,91,67)"]);
+    .range(["rgb(213,222,217)", "rgb(69,173,168)"]);
 
   var legendText = ["Air Force Base", "States Lived", "States Visited", "Nada"];
 
@@ -66,6 +82,7 @@ function visulization() {
       }
 
       // Bind the data to the SVG and create one path per GeoJSON feature
+
       svg.selectAll("path")
         .data(json.features)
         .enter()
@@ -75,11 +92,16 @@ function visulization() {
         .style("stroke-width", "0.2")
         .style("fill", function(d) {
           // Get data value
-          var value = d.properties.visited;
-          var colorScale = d3.scaleLinear().domain([0, 37320903]).range(["#141332", "#595499"])
-          return colorScale(value)
+          if (id === "population" || id === "all") {
+            var value = d.properties.visited;
+            var colorScale = d3.scaleLinear().domain([0, 37320903]).range(["#141332", "#595499"])
+            return colorScale(value)
+          }
+          else return "#141332"
         });
 
+
+      
 
       d3.csv("./data/LaLo.csv", function(data) {
         svg.selectAll("circle")
@@ -105,68 +127,69 @@ function visulization() {
 
       });
 
-      d3.csv("./data/airforce.csv", function(data) {
-        svg.selectAll("circle")
-          .data(data)
-          .enter()
-          .append("circle")
-          .attr("cx", function(d, i) {
-            lon = parseFloat(d.lon).toFixed(5).toString()
-            lat = parseFloat(d.lat).toFixed(5).toString()
-            return projection([lon, lat])[0];
-          })
-          .attr("cy", function(d) {
-            lon = parseFloat(d.lon).toFixed(5).toString()
-            lat = parseFloat(d.lat).toFixed(5).toString()
-            return projection([lon, lat])[1];
-          })
-          .attr("r", 5)
-          .style("fill", "rgb(255,255,255)")
-          .style("opacity", 0.85)
+      if (id === 'af' || id === "all") {
+        d3.csv("./data/airforce.csv", function(data) {
+          svg.selectAll("circle")
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("cx", function(d, i) {
+              lon = parseFloat(d.lon).toFixed(5).toString()
+              lat = parseFloat(d.lat).toFixed(5).toString()
+              return projection([lon, lat])[0];
+            })
+            .attr("cy", function(d) {
+              lon = parseFloat(d.lon).toFixed(5).toString()
+              lat = parseFloat(d.lat).toFixed(5).toString()
+              return projection([lon, lat])[1];
+            })
+            .attr("r", 5)
+            .style("fill", "rgb(255,255,255)")
+            .style("opacity", 0.85)
 
-          // Modification of custom tooltip code provided by Malcolm Maclean, "D3 Tips and Tricks" 
-          // http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html
-          // .on("mouseover", function(d) {
-          //   div.transition()
-          //     .duration(200)
-          //     .style("opacity", .9);
-          //   div.text(d.name)
-          //     .style("left", (d3.event.pageX) + "px")
-          //     .style("top", (d3.event.pageY - 28) + "px");
-          // })
+            // Modification of custom tooltip code provided by Malcolm Maclean, "D3 Tips and Tricks" 
+            // http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html
+            // .on("mouseover", function(d) {
+            //   div.transition()
+            //     .duration(200)
+            //     .style("opacity", .9);
+            //   div.text(d.name)
+            //     .style("left", (d3.event.pageX) + "px")
+            //     .style("top", (d3.event.pageY - 28) + "px");
+            // })
 
-          // // fade out tooltip on mouse out               
-          // .on("mouseout", function(d) {
-          //   div.transition()
-          //     .duration(500)
-          //     .style("opacity", 0);
-          // });
-      });
+            // // fade out tooltip on mouse out               
+            // .on("mouseout", function(d) {
+            //   div.transition()
+            //     .duration(500)
+            //     .style("opacity", 0);
+            // });
+        });
+      }
 
-      // Modified Legend Code from Mike Bostock: http://bl.ocks.org/mbostock/3888852
-      // var legend = d3.select("body").append("svg")
-      //   .attr("class", "legend")
-      //   .attr("width", 140)
-      //   .attr("height", 200)
-      //   .selectAll("g")
-      //   .data(color.domain().slice().reverse())
-      //   .enter()
-      //   .append("g")
-      //   .attr("transform", function(d, i) {
-      //     return "translate(0," + i * 20 + ")";
-      //   });
+      var legend = d3.select("#map").append("svg")
+        .attr("class", "legend")
+        .attr("width", 140)
+        .attr("height", 200)
+        .selectAll("g")
+        .data(color.domain().slice().reverse())
+        .enter()
+        .append("g")
+        .attr("transform", function(d, i) {
+          return "translate(0," + i * 20 + ")";
+        });
 
-      // legend.append("rect")
-      //       .attr("width", 18)
-      //       .attr("height", 18)
-      //       .style("fill", color);
+      legend.append("circle")
+            .attr("cx", 10)
+            .attr("cy", 10)
+            .style("fill", color);
 
-      // legend.append("text")
-      //    .data(legendText)
-      //       .attr("x", 24)
-      //       .attr("y", 9)
-      //       .attr("dy", ".35em")
-      //       .text(function(d) { return d; });
+      legend.append("text")
+         .data(legendText)
+            .attr("x", 24)
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .text(function(d) { return d; });
     });
 
   });

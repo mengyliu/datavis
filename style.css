@@ -105,6 +105,30 @@ h2 {
 
 }
 
+.button {
+	padding: 10px 40px;
+	width: 120px;
+	display: inline-block;
+	border: 1px solid #59539a;
+  	margin-left: -5px;
+  	cursor: pointer;
+}
+
+.selected {
+	background-color: #59539a;
+}
+
+.left {
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	border-right-style: none;
+}
+
+.right{
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-left-style:none;
+}
 
 /* Style for Custom Tooltip */
 div.tooltip {   
@@ -124,7 +148,6 @@ div.tooltip {
         
 /* Legend Position Style */
 .legend {
-	position:absolute;
 	left:800px;
 	top:350px;
 }
@@ -141,6 +164,9 @@ div.tooltip {
 	color:rgba(255,255,255,0.5);
 }
 
+#map {
+	width: 960px;
+}
 
 ::selection {
 	background: #808DD3;
