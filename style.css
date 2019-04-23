@@ -250,9 +250,6 @@ div.tooltip {
 	color:rgba(255,255,255,0.5);
 }
 
-#map {
-	width: 960px;
-}
 
 .pop-legend {
 	margin-left:800px;
@@ -289,11 +286,15 @@ div.tooltip {
 #explore #explore2_container {
 	float: left;
 	border: 2px solid #494CA4;
+	flex-grow: 1;
+	flex-shrink: 1;
 }
 
 #explore #explore3_container {
 	float: right;
 	border: 2px solid #494CA4;
+	flex-grow: 1;
+	flex-shrink: 1;
 }
 
 #explore #explore1_container {
@@ -306,4 +307,18 @@ div.tooltip {
 	font-size: 16pt;
 	color: white;
 	padding: 10px 0px;
+}
+
+#show {
+	width: 1%;
+}
+
+#flex_container {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+}
+
+#map {
+	width: 100%;
 }

@@ -35,7 +35,7 @@ function updateGraph(id) {
 }
 function visulization(id) {
   //Width and height of map
-  var width = 960;
+  var width = $('#map').width();
   var height = 500;
   // D3 Projection
   var projection = d3.geoAlbersUsa()
