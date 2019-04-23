@@ -208,7 +208,7 @@ function visulization(id) {
           }
           var $newdiv = $("<div class='pop-legend'></div>")
           var $svg = $(data.documentElement)
-          $svg.width("80%");
+          $svg.width("70%");
           $newdiv.append($svg);
           $('#map').append($newdiv);
         })
@@ -220,7 +220,7 @@ function visulization(id) {
           }
           var $newdiv = $("<div class='pop-legend'></div>")
           var $svg = $(data.documentElement)
-          $svg.width("80%");
+          $svg.width("70%");
           $newdiv.append($svg);
           $('#map').append($newdiv);
         })
@@ -232,7 +232,7 @@ function visulization(id) {
           }
           var $newdiv = $("<div class='pop-legend'></div>")
           var $svg = $(data.documentElement)
-          $svg.width("80%");
+          $svg.width("70%");
           $newdiv.append($svg);
           $('#map').append($newdiv);
         })
