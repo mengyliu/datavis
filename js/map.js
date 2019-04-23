@@ -14,16 +14,30 @@ function selectGraph(id) {
 
 
 function updateGraph(id) {
-  $("#map").empty();
-  visulization(id);
+  // $("#map").empty();
+  // visulization(id);
+  switch(id) {
+    case "af":
+      $(".baselayer").fadeIn(500)
+      $(".maplayer").fadeOut(500)
+      // code block
+      break;
+    case "population":
+      $(".baselayer").fadeOut(500)
+      $(".maplayer").fadeIn(500)
+      // code block
+      break;
+    default:
+      $(".baselayer").fadeIn(500)
+      $(".maplayer").fadeIn(500)
+      // code block
+  }
 }
 function visulization(id) {
   console.log(id)
-
   //Width and height of map
   var width = 960;
   var height = 500;
-
   // D3 Projection
   var projection = d3.geoAlbersUsa()
     .translate([width / 2, height / 2]) // translate to center of screen
@@ -46,9 +60,10 @@ function visulization(id) {
     .attr("width", width)
     .attr("height", height);
 
-  var maplayer = svg.append('g');
-  var baselayer = svg.append('g');
-  var sightinglayer = svg.append('g');
+  var maplayer = svg.append('g').attr("class","maplayer");
+  var strokelayer = svg.append('g').attr("class","strokelayer");
+  var baselayer = svg.append('g').attr("class","baselayer");
+  var sightinglayer = svg.append('g').attr("class","sightinglayer");
 
   // Append Div for tooltip to SVG
   var div = d3.select("body")
@@ -83,17 +98,21 @@ function visulization(id) {
         .enter()
         .append("path")
         .attr("d", path)
-        .style("stroke", "#fff")
-        .style("stroke-width", "0.2")
         .style("fill", function(d) {
           // Get data value
-          if (id === "population" || id === "all") {
-            var value = d.properties.visited;
-            var colorScale = d3.scaleLog().domain([564483, 37320903]).range(["#141332", "#595499"])
-            return colorScale(value)
-          }
-        })
-        .style("fill-opacity", id === "af" ? 0 : 1);
+          var value = d.properties.visited;
+          var colorScale = d3.scaleLog().domain([564483, 37320903]).range(["#141332", "#595499"])
+          return colorScale(value)
+        });
+
+      strokelayer.selectAll("path")
+        .data(json.features)
+        .enter()
+        .append("path")
+        .attr("d", path)
+        .style("stroke", "#fff")
+        .style("stroke-width", "0.2")
+        .style("fill-opacity", 0);
     });
 
 
@@ -101,62 +120,59 @@ function visulization(id) {
 
 
   d3.csv("./data/LaLo.csv", function(data) {
-        sightinglayer.selectAll("circle")
-          .data(data)
-          .enter()
-          .append("circle")
-          .attr("cx", function(d, i) {
-            lon = parseFloat(d.longitude).toFixed(5).toString()
-            lat = parseFloat(d.latitude).toFixed(5).toString()
-            return projection([lon, lat])[0];
-          })
-          .attr("cy", function(d) {
-            lon = parseFloat(d.longitude).toFixed(5).toString()
-            lat = parseFloat(d.latitude).toFixed(5).toString()
-            return projection([lon, lat])[1];
-          })
-          .attr("r", 1)
-          .style("fill", "rgb(145,208,242)")
-          .style("opacity", 0.55)
-      });
+    sightinglayer.selectAll("circle")
+      .data(data)
+      .enter()
+      .append("circle")
+      .attr("cx", function(d, i) {
+        lon = parseFloat(d.longitude).toFixed(5).toString()
+        lat = parseFloat(d.latitude).toFixed(5).toString()
+        return projection([lon, lat])[0];
+      })
+      .attr("cy", function(d) {
+        lon = parseFloat(d.longitude).toFixed(5).toString()
+        lat = parseFloat(d.latitude).toFixed(5).toString()
+        return projection([lon, lat])[1];
+      })
+      .attr("r", 1)
+      .style("fill", "rgb(145,208,242)")
+      .style("opacity", 0.55)
+  });
+  d3.csv("./data/airforce.csv", function(af) {
+    baselayer.selectAll("circle")
+      .data(af)
+      .enter()
+      .append("circle")
+      .attr("cx", function(d, i) {
+        lon = parseFloat(d.lon).toFixed(5).toString()
+        lat = parseFloat(d.lat).toFixed(5).toString()
+        return projection([lon, lat])[0];
+      })
+      .attr("cy", function(d) {
+        lon = parseFloat(d.lon).toFixed(5).toString()
+        lat = parseFloat(d.lat).toFixed(5).toString()
+        return projection([lon, lat])[1];
+      })
+      .attr("r", 5)
+      .style("fill", "rgb(255,255,255)")
+      .style("opacity", 0.85)
+      // .on("mouseover", function(d) {
+      //   console.log(d)
+      //   div.transition()
+      //     .duration(200)
+      //     .style("opacity", .9);
+      //   div.text(af.city)
+      //     .style("left", (d3.event.pageX) + "px")
+      //     .style("top", (d3.event.pageY - 28) + "px");
+      // })
 
-      if (id === 'af' || id === "all") {
-        d3.csv("./data/airforce.csv", function(af) {
-          baselayer.selectAll("circle")
-            .data(af)
-            .enter()
-            .append("circle")
-            .attr("cx", function(d, i) {
-              lon = parseFloat(d.lon).toFixed(5).toString()
-              lat = parseFloat(d.lat).toFixed(5).toString()
-              return projection([lon, lat])[0];
-            })
-            .attr("cy", function(d) {
-              lon = parseFloat(d.lon).toFixed(5).toString()
-              lat = parseFloat(d.lat).toFixed(5).toString()
-              return projection([lon, lat])[1];
-            })
-            .attr("r", 5)
-            .style("fill", "rgb(255,255,255)")
-            .style("opacity", 0.85)
-            // .on("mouseover", function(d) {
-            //   console.log(d)
-            //   div.transition()
-            //     .duration(200)
-            //     .style("opacity", .9);
-            //   div.text(af.city)
-            //     .style("left", (d3.event.pageX) + "px")
-            //     .style("top", (d3.event.pageY - 28) + "px");
-            // })
-
-            // // fade out tooltip on mouse out              
-            // .on("mouseout", function(d) {
-            //   div.transition()
-            //     .duration(500)
-            //     .style("opacity", 0);
-            // });
-        });
-      }
+      // // fade out tooltip on mouse out              
+      // .on("mouseout", function(d) {
+      //   div.transition()
+      //     .duration(500)
+      //     .style("opacity", 0);
+      // });
+  });
 
 
   
