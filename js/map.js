@@ -18,7 +18,7 @@ function updateGraph(id) {
   visulization(id);
 }
 function visulization(id) {
-  console.log(id)
+  //console.log(id)
 
   //Width and height of map
   var width = 960;

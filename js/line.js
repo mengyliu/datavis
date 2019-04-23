@@ -12,9 +12,10 @@ function loadData_line() {
     data.forEach((item) => {
       item.num = parseInt(item.num)
       item.year = parseInt(item.year)
-      console.log(item.num)
+      //console.log(item.num)
     });
     visualize_line();
+    drawText();
   });
 }
 
@@ -119,6 +120,9 @@ function visualize_line() {
     .data(keyevents)
     .enter().append("circle") // Uses the enter().append() method
     .attr("class", "dot") // Assign a class for styling
+    .attr("id",function(d) {
+      return "d"+d.year
+    })
     .attr("cx", function(d) {
       return xScale(d.num)
     })
@@ -130,8 +134,29 @@ function visualize_line() {
     .on("mouseout", handleMouseOut)
 
   d3.select("#num").append("text")
-    .text(0)
+    .text(65114)
 
+  d3.select("#num").append("text")
+    .attr("id","intotal")
+    .style("font-size","12pt")
+    .style("color","rgba(255,255,255,0.5)")
+    .style("margin-left","10px")
+    .text("in total")
+
+
+    // svg.selectAll(".event_text")
+    // .data(keyevents)
+    // .enter().append("text") // Uses the enter().append() method
+    // .attr("class", "event_text") // Assign a class for styling
+    // .attr("x", function(d) {
+    //   return xScale(d.num)
+    // })
+    // .attr("y", function(d) {
+    //   return yScale(d.year)
+    // })
+    // .text(function(d){
+    //     return d.year
+    //   })
 
 
   // Create Event Handlers for mouse
@@ -139,7 +164,7 @@ function visualize_line() {
 
     // Specify where to put label of text
 
-    console.log(1);
+    //console.log(1);
 
     var format = d3.format(",d");
 
@@ -163,16 +188,9 @@ function visualize_line() {
             .on("start", repeat);
       });
 
-    d3.select("#canvas_line").append("text")
-    .attr("id","t"+d.num+"-"+d.year)
-    .attr("class","key_year")
-    .attr("fill","rgba(255,255,255,0.5)")
-    .attr("x", function() {return xScale(d.num)+30;})
-    .attr("y", function() {return yScale(d.year)+5;})
-    .text(function(){
-      return d.year
-    })
+      d3.select("#num #intotal").remove()
 
+     
 
      
   }
@@ -195,7 +213,7 @@ function visualize_line() {
         d3.active(this)
             .tween("text", function() {
               var that = d3.select(this),
-                  i = d3.interpolateNumber(that.text().replace(/,/g, ""), 0);
+                  i = d3.interpolateNumber(that.text().replace(/,/g, ""), 65114);
               return function(t) { that.text(format(i(t))); };
             })
           .transition()
@@ -203,8 +221,27 @@ function visualize_line() {
             .on("start", repeat);
       });
 
-      d3.select("#"+"t"+d.num+"-"+d.year).remove();
+      d3.select("#num").append("text")
+      .attr("id","intotal")
+      .style("font-size","12pt")
+      .style("color","rgba(255,255,255,0.5)")
+      .style("margin-left","10px")
+      .text("in total")
+
   }
+
+
+}
+
+function drawText() {
+  var dot1990 = document.getElementById("d1990");
+  var bodyRect = document.body.getBoundingClientRect(),
+    elemRect = dot1990.getBoundingClientRect(),
+    topOffset   = elemRect.top - bodyRect.top - 20,
+    leftOffset   = elemRect.left - bodyRect.left+70;
+
+  $("#e1990").css("margin-left",leftOffset);
+  $("#e1990").css("margin-top",topOffset);
 
 
 }

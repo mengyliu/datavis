@@ -1,73 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<script src="http://d3js.org/d3.v4.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="js/d3-scale-radial.js"></script>
-<link rel="stylesheet" href="style.css">
-
-</head>
-<body>
-	<div class = "container">
-		<h1>The UFO Phenomenon: Should I Believe?</h1>
-		<h3>What over 80,000 reports of UFO sightings data over the last century told us.</h2>
-		<img src="img/UFO.svg" id = "UFO_ico">
-		<h5>By <b>Zachary Zeng</b>, <b>Jiahui Zhou</b>, <b>Jay Chen</b>, <b>Mengyao Liu</b></h3>
-
-		<div style="width : 60%; margin: 0 auto;">
-			<p>
-				There is a large amount of data that people have witnessed UFOs, through ancient times and modern days. But still, do you believe in UFO and aliens? In 2019, we had the opportunity to dig deeper into over 80,000 sighting reports data. Based on our understanding of the UFO sighting phenomena, there are factors: external events, population, daily/seasonal activity, and time of day.
-			</p>
-		</div>	
-		
-
-		<div id = "linechart">
-			<h2>History of UFO Sightings</h2>
-			<div id="line"></div>
-			<div id="num_container">
-				UFO Sightings: 
-				<div id="num"></div>
-			</div>
-
-			<div id="line_detail"></div>
-		</div>
-
-		<h2>Geography - Population and Air force</h4>
-		<div container>
-			<div class="button left selected" id="all" onclick="selectGraph(this.id)">All</div>
-			<div class="button" id="population" onclick="selectGraph(this.id)">Population</div>
-			<div class="button right" id="af" onclick="selectGraph(this.id)">Air Force Base</div>
-		</div>
-		<div id="map"></div>
-		<div id="map_text">
+	<head>
+		<meta charset="utf-8">
+		<script src="https://d3js.org/d3.v4.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="js/d3-scale-radial.js"></script>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<div class = "container">
+			<h1>The UFO Phenomenon: Should I Believe?</h1>
+			<h3>What over 80,000 reports of UFO sightings data over the last century told us.</h2>
+			<img src="img/UFO.svg" id = "UFO_ico">
+			<h5>By <b>Zachary Zeng</b>, <b>Jiahui Zhou</b>, <b>Jay Chen</b>, <b>Mengyao Liu</b></h3>
 			<div style="width : 60%; margin: 0 auto;">
-				<p style="margin-top: 50px;">
-					The second chat shows a map which represents the geological relationship between the number of UFO sighting in the states of the United States with the population and air force locations. 
-					Whenever we pulled out a list of the top states for UFO sightings, our first instinct was that the reason California is No. 1 because of its population. However, after exploring the other top 10 states, we found vast contrast: 
-
-					For example, in 2010, Washington has about half the population (6.7 million) of Pennsylvania (12.7 million), but Washington (247) has nearly twice of the UFO sighting numbers of Pennsylvania’s (145). In the meantime, New York (19.4 million), who has nearly population of Washington and Pennsylvania combined, has UFO sighting volumes (160) similar to Pennsylvania. So population isn’t the sole driver.
-
-					The opinion that a state’s population is the sole driver for the volume of UFO sighting reports doesn’t hold up.
-
-					We then looked at the relationship between UFO sightings and air force locations.
-
+				<p>
+					There is a large amount of data that people have witnessed UFOs, through ancient times and modern days. But still, do you believe in UFO and aliens? In 2019, we had the opportunity to dig deeper into over 80,000 sighting reports data. Based on our understanding of the UFO sighting phenomena, there are factors: external events, population, daily/seasonal activity, and time of day.
 				</p>
 			</div>
-		</div>
-
-		<h2>Exploration</h2>
-		<div id="explore">
-			<div id="explore1"></div>
-			<div id="explore2"></div>
+			
+			<div id = "events_text">
+				<div id = "e1946"><h3>1946</h3>UFOs garnered considerable interest during the Cold War, an era associated with a heightened concern for national security.</div>
+				<div id = "e1968"><h3>1968</h3>Science Fiction Movies Succeeded. (2001: A Space Odyssey)</div>
+				<div id = "e1974"><h3>1974</h3>The National UFO Reporting Center has provided a 24-hour hotline phone number for people to report UFO activity that has occurred within the last week.</div>
+				<div id = "e1984"><h3>1984</h3>The Terminator.</div>
+				<div id = "e1990"><h3>1984</h3>Internet Became Popular.</div>
+			</div>
+			<div id = "linechart">
+				<h2>History of UFO Sightings</h2>
+				<div id="line"></div>
+				<div id="num_container">
+					UFO Sightings:
+					<div id="num"></div>
+				</div>
+				<div id="line_detail"></div>
+			</div>
+			<h2>Geography - Population and Air force</h4>
+			<div container>
+				<div class="button left selected" id="all" onclick="selectGraph(this.id)">All</div>
+				<div class="button" id="population" onclick="selectGraph(this.id)">Population</div>
+				<div class="button right" id="af" onclick="selectGraph(this.id)">Air Force Base</div>
+			</div>
+			<div id="map"></div>
+			<div id="map_text">
+				<div style="width : 80%; margin: 0 auto;">
+					<p style="margin-top: 50px;">
+						The second chat shows a map which represents the geological relationship between the number of UFO sighting in the states of the United States with the population and air force locations.
+						Whenever we pulled out a list of the top states for UFO sightings, our first instinct was that the reason California is No. 1 because of its population. However, after exploring the other top 10 states, we found vast contrast:
+						For example, in 2010, Washington has about half the population (6.7 million) of Pennsylvania (12.7 million), but Washington (247) has nearly twice of the UFO sighting numbers of Pennsylvania’s (145). In the meantime, New York (19.4 million), who has nearly population of Washington and Pennsylvania combined, has UFO sighting volumes (160) similar to Pennsylvania. So population isn’t the sole driver.
+						The opinion that a state’s population is the sole driver for the volume of UFO sighting reports doesn’t hold up.
+						We then looked at the relationship between UFO sightings and air force locations.
+					</p>
+				</div>
+			</div>
+			<h2>Exploration</h2>
+			<div container>
+				<div class="mon_button left selected" id="jan" onclick="selectMonGraph(this.id)">Jan</div>
+				<div class="mon_button" id="feb" onclick="selectMonGraph(this.id)">Feb</div>
+				<div class="mon_button" id="mar" onclick="selectMonGraph(this.id)">Mar</div>
+				<div class="mon_button" id="apr" onclick="selectMonGraph(this.id)">Apr</div>
+				<div class="mon_button" id="may" onclick="selectMonGraph(this.id)">May</div>
+				<div class="mon_button" id="jun" onclick="selectMonGraph(this.id)">Jun</div>
+				<div class="mon_button" id="jul" onclick="selectMonGraph(this.id)">Jul</div>
+				<div class="mon_button" id="aug" onclick="selectMonGraph(this.id)">Aug</div>
+				<div class="mon_button" id="sep" onclick="selectMonGraph(this.id)">Sep</div>
+				<div class="mon_button" id="oct" onclick="selectMonGraph(this.id)">Oct</div>
+				<div class="mon_button" id="nov" onclick="selectMonGraph(this.id)">Nov</div>
+				<div class="mon_button right" id="dec" onclick="selectMonGraph(this.id)">Dec</div>
+			</div>
+			<p id= "explore_text">The most promising option for you to see UFO in &nbsp <b id="best_month"></b> &nbsp is on <b id="best_day"></b> at <b id="best_hour"></b> in <b id="best_loc"></b> </p>
+			<div id="explore">
+				<div id="explore1_container">
+					<h3>The UFO Sightings in the specific month</h3>
+					<div id="explore1">
+					</div>
+				</div>
+				<div id="explore2_container">
+					<h3>The UFO Sightings in the specific day</h3>
+					<div id="explore2">
+					</div>
+				</div>
+				<div id="explore3_container">
+					<h3>Top3 locations for UFO Sightings in the specific day</h3>
+					<div id="explore3">
+					</div>
+				</div>
+			</div>
 		</div>
 		
-	</div>
-
-	
-	<!-- <script src="js/explore.js"></script> -->
-	<script src="js/map.js"></script>
-	<script src="js/line.js"></script>
-	<script src="js/line_detail.js"></script>
-</body>
+		<script src="js/explore.js" async></script>
+		<!-- <script src="js/map.js"></script> -->
+		<script src="js/line.js" async></script>
+		<script src="js/line_detail.js" async></script>
+		<script src="js/drawText.js" async></script>
+	</body>
 </html>

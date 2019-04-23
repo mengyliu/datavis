@@ -1,8 +1,17 @@
 var data = []; // the variable that holds the data from csv file
 
+var events_year = {
+  "1946": "UFOs garnered considerable interest during the Cold War, an era associated with a heightened concern for national security.",
+  "1968": "Science Fiction Movies Succeeded. (2001: A Space Odyssey)",
+  "1974": "The National UFO Reporting Center has provided a 24-hour hotline phone number for people to report UFO activity that has occurred within the last week.",
+  "1984": "The Terminator",
+}
+
 $(document).ready(function() {
   loadData_line_detail();
 });
+
+
 
 
 function loadData_line_detail() {
@@ -12,19 +21,20 @@ function loadData_line_detail() {
     data.forEach((item) => {
       item.num = parseInt(item.num)
       item.year = parseInt(item.year)
-      console.log(item.num)
+      //console.log(item.num)
     });
     visualize_line_detail();
+    console.log("first");
+    drawTextDetail();
   });
 }
-
 
 
 function visualize_line_detail() {
   // 2. Use the margin convention practice 
   var margin = {
       top: 50,
-      right: 0,
+      right: 50,
       bottom: 50,
       left: 50,
     },
@@ -36,7 +46,7 @@ function visualize_line_detail() {
 
   // 5. X scale will use the index of our data
   var xScale = d3.scaleLinear()
-    .domain([d3.max(data, (d) => d.num), 0]) // input 
+    .domain([d3.max(data, (d) => d.num)*2, 0]) // input 
     .range([width, 0]); // output 
 
   // 6. Y scale will use the randomly generate number 
@@ -67,7 +77,8 @@ function visualize_line_detail() {
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
-    .attr("id","canvas_line")
+    .attr("id","detail_canvas_line")
+    .style("position","relative")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
    svg.append("linearGradient")
@@ -96,7 +107,7 @@ function visualize_line_detail() {
     .call(d3.axisLeft(yScale).tickValues(yScale.domain().filter(function(d,i){ return !(i%5)}))); // Create an axis component with d3.axisLeft
 
   var keyevents = data.filter(function(d) {
-    var filter = (d.year == 1946) || (d.year == 1996) || (d.year == 1974) || (d.year == 1984) || (d.year == 1984);
+    var filter = (d.year == 1946) || (d.year == 1974) || (d.year == 1984) || (d.year == 1968);
     return filter;
   })
 
@@ -110,14 +121,18 @@ function visualize_line_detail() {
     .datum(data) // 10. Binds data to the line 
     .attr("class", "area") // Assign a class for styling 
     .attr("d", area); // 11. Calls the line generator 
-    
+  
+
 
     //console.log(keyevents);
   // 12. Appends a circle for each datapoint 
-  svg.selectAll(".dot")
+  svg.selectAll(".detail_dot")
     .data(keyevents)
     .enter().append("circle") // Uses the enter().append() method
-    .attr("class", "dot") // Assign a class for styling
+    .attr("class", "detail_dot") // Assign a class for styling
+    .attr("id",function(d) {
+      return "d"+d.year
+    })
     .attr("cx", function(d) {
       return xScale(d.num)
     })
@@ -128,13 +143,30 @@ function visualize_line_detail() {
     .on("mouseover", handleMouseOver)
     .on("mouseout", handleMouseOut)
 
+    // svg.selectAll(".event_text")
+    // .data(keyevents)
+    // .enter().append("text") // Uses the enter().append() method
+    // .attr("class", "event_text") // Assign a class for styling
+    // .attr("x", function(d) {
+    //   return xScale(d.num)+20
+    // })
+    // .attr("y", function(d) {
+    //   return yScale(d.year)
+    // })
+    // .text(function(d){
+    //   var year = String(d.year);
+    //   var des = events_year[year];
+    //     return year+" : "+des
+    //   })
+
+
 
   // Create Event Handlers for mouse
   function handleMouseOver(d, i) { // Add interactivity
 
     // Specify where to put label of text
 
-    console.log(1);
+    //console.log(1);
 
     var format = d3.format(",d");
 
@@ -158,16 +190,7 @@ function visualize_line_detail() {
             .on("start", repeat);
       });
 
-    d3.select("#canvas_line").append("text")
-    .attr("id","t"+d.num+"-"+d.year)
-    .attr("class","key_year")
-    .attr("fill","rgba(255,255,255,0.5)")
-    .attr("x", function() {return xScale(d.num)+30;})
-    .attr("y", function() {return yScale(d.year)+5;})
-    .text(function(){
-      return d.year
-    })
-
+      d3.select("#num #intotal").remove()
 
      
   }
@@ -182,7 +205,6 @@ function visualize_line_detail() {
       .duration(200)
       .attr("r", 5);
 
-
       d3.select("#num text")
       .transition()
       .duration(200)
@@ -190,7 +212,7 @@ function visualize_line_detail() {
         d3.active(this)
             .tween("text", function() {
               var that = d3.select(this),
-                  i = d3.interpolateNumber(that.text().replace(/,/g, ""), 0);
+                  i = d3.interpolateNumber(that.text().replace(/,/g, ""), 65114);
               return function(t) { that.text(format(i(t))); };
             })
           .transition()
@@ -198,8 +220,53 @@ function visualize_line_detail() {
             .on("start", repeat);
       });
 
-      d3.select("#"+"t"+d.num+"-"+d.year).remove();
-  }
+      d3.select("#num").append("text")
+      .attr("id","intotal")
+      .style("font-size","12pt")
+      .style("color","rgba(255,255,255,0.5)")
+      .style("margin-left","10px")
+      .text("in total")
 
+  }
+}
+
+function drawTextDetail() {
+  var dot1946 = document.getElementById("d1946");
+  var bodyRect = document.body.getBoundingClientRect(),
+    elemRect = dot1946.getBoundingClientRect(),
+    topOffset   = elemRect.top - bodyRect.top - 50,
+    leftOffset   = elemRect.left - bodyRect.left+80;
+
+  $("#e1946").css("margin-left",leftOffset);
+  $("#e1946").css("margin-top",topOffset);
+
+  var dot1968 = document.getElementById("d1968");
+  var bodyRect = document.body.getBoundingClientRect(),
+    elemRect = dot1968.getBoundingClientRect(),
+    topOffset   = elemRect.top - bodyRect.top - 50,
+    leftOffset   = elemRect.left - bodyRect.left+50;
+
+  $("#e1968").css("margin-left",leftOffset);
+  $("#e1968").css("margin-top",topOffset);
+
+
+var dot1974 = document.getElementById("d1974");
+  var bodyRect = document.body.getBoundingClientRect(),
+    elemRect = dot1974.getBoundingClientRect(),
+    topOffset   = elemRect.top - bodyRect.top - 30,
+    leftOffset   = elemRect.left - bodyRect.left+50;
+
+  $("#e1974").css("margin-left",leftOffset);
+  $("#e1974").css("margin-top",topOffset);
+
+var dot1984 = document.getElementById("d1984");
+  var bodyRect = document.body.getBoundingClientRect(),
+    elemRect = dot1984.getBoundingClientRect(),
+    topOffset   = elemRect.top - bodyRect.top - 20,
+    leftOffset   = elemRect.left - bodyRect.left+70;
+
+  $("#e1984").css("margin-left",leftOffset);
+  $("#e1984").css("margin-top",topOffset);
 
 }
+

@@ -78,6 +78,11 @@ h2 {
     box-shadow: 10px 10px grey;
 }
 
+#detail_canvas_line .detail_dot {
+    fill: #9BCFF0;
+    box-shadow: 10px 10px grey;
+}
+
 .area {
 	fill: url(#temperature-gradient);
 }
@@ -120,6 +125,57 @@ h2 {
 	height: 1100px;
 }
 
+#events_text {
+	text-align:left; 
+	font-size: 9pt;
+	font-weight: 300;
+	z-index: 99999;
+}
+
+#events_text h3 {
+	margin:10px;
+	margin-left: 0px;
+	margin-bottom: 5px;
+}
+
+#e1946{
+	position: absolute;
+	top:0px;
+	left:0px;
+	width: 20%;
+	color:white;
+}
+#e1968{
+	position: absolute;
+	top:0px;
+	left:0px;
+	width: 15%;
+	color:white;
+}
+#e1974{
+	position: absolute;
+	top:0px;
+	left:0px;
+	width: 16%;
+	color:white;
+}
+#e1984{
+	position: absolute;
+	top:0px;
+	left:0px;
+	width: 10%;
+	color:white;
+}
+#e1990{
+	position: absolute;
+	top:0px;
+	left:0px;
+	width: 10%;
+	color:white;
+}
+
+
+
 #linechart #line_detail {
 	margin-top: -940px;
 	margin-left: 300px;
@@ -143,9 +199,6 @@ h2 {
   	cursor: pointer;
 }
 
-.selected {
-	background-color: #59539a;
-}
 
 .left {
 	border-top-left-radius: 5px;
@@ -199,4 +252,50 @@ div.tooltip {
 
 ::selection {
 	background: #808DD3;
+}
+
+
+.mon_button {
+	padding: 10px 40px;
+	width: 70px;
+	display: inline-block;
+	border: 1px solid #59539a;
+  	margin-left: -5px;
+  	cursor: pointer;
+}
+
+.selected {
+	background-color: #59539a;
+}
+
+#explore {
+	width: 100%;
+	margin: 0 auto;
+	text-align: left;
+}
+
+#explore h3 {
+	margin-left: 30px;
+}
+
+#explore #explore2_container {
+	float: left;
+	border: 2px solid #494CA4;
+}
+
+#explore #explore3_container {
+	float: right;
+	border: 2px solid #494CA4;
+}
+
+#explore #explore1_container {
+	border: 2px solid #494CA4;
+	margin-bottom: 20px;
+}
+
+.container #explore_text {
+	text-align: center;
+	font-size: 16pt;
+	color: white;
+	padding: 10px 0px;
 }
