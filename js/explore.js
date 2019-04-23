@@ -35,7 +35,7 @@ function selectMonGraph(id) {
   //console.log(Mon_abre[id]);
   $("#best_month").html(Mon_abre[id]);
   $("#best_day").html(findBestDay(Mon_abre[id]));
-  $("#best_hour").html(findBestHour(Mon_abre[id]));
+  $("#best_hour").html(findBestHour(Mon_abre[id])+":00");
   $("#best_loc").html(findBestLoc(Mon_abre[id]));
 
   visualize_Exploreline_1(groupbyMonth(String(Mon_abre[id])));
@@ -67,7 +67,7 @@ function loadExploreData_line() {
   		item.Records = parseInt(item.Records)
   	});
   	visualize_Exploreline_2(groupbyDay("January"));
-  	$("#best_hour").html(findBestHour("January"));
+  	$("#best_hour").html(findBestHour("January")+":00");
   })
 
   d3.csv("./data/Shape_State_Max.csv", function(d) {
