@@ -163,7 +163,7 @@ function visualize_Exploreline_1(dataset) {
       bottom: 50,
       left: 50,
     },
-    width = document.getElementById("explore").offsetWidth/1.2;
+    width = document.getElementById("explore").offsetWidth - margin.left ;
   
     height = 300; // Use the window's height
 
@@ -268,7 +268,7 @@ function visualize_Exploreline_2(dataset) {
       bottom: 50,
       left: 50,
     },
-    width = document.getElementById("explore").offsetWidth/2.3; // Use the window's width 
+    width = document.getElementById("explore").offsetWidth/2.3 - margin.left; // Use the window's width 
   
     height = 300; // Use the window's height
 
@@ -373,7 +373,7 @@ function visualize_Exploreline_3(dataset) {
       bottom: 50,
       left: 50,
     },
-    width = document.getElementById("explore").offsetWidth/2.3; // Use the window's width 
+    width = document.getElementById("explore").offsetWidth/2.3 - margin.left; // Use the window's width 
   
     height = 300; // Use the window's height
 
