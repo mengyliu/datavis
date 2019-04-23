@@ -134,6 +134,10 @@ h2 {
 	fill: white;
 }
 
+
+.button-container {
+	margin: 40px;
+}
 .button {
 	padding: 10px 40px;
 	width: 120px;
@@ -195,6 +199,10 @@ div.tooltip {
 
 #map {
 	width: 960px;
+}
+
+.pop-legend {
+	margin-left:800px;
 }
 
 ::selection {
