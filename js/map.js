@@ -202,7 +202,7 @@ function visulization(id) {
       //   .style("fill", 'white')
       //   .text(function(d) { return d; });
       if (id === "population") {
-        $.get('../img/population.svg', function(data){
+        $.get('./../img/population.svg', function(data){
           if ($('.pop-legend')) {
             $('.pop-legend').empty()
           }
@@ -214,7 +214,7 @@ function visulization(id) {
         })
       }
       else if (id === "all") {
-        $.get('../img/all.svg', function(data){
+        $.get('./../img/all.svg', function(data){
           if ($('.pop-legend')) {
             $('.pop-legend').empty()
           }
@@ -226,7 +226,7 @@ function visulization(id) {
         })
       }
       else if (id === "af") {
-        $.get('../img/airforce.svg', function(data){
+        $.get('./../img/airforce.svg', function(data){
           if ($('.pop-legend')) {
             $('.pop-legend').empty()
           }
